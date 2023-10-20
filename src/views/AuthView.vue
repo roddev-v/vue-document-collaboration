@@ -17,6 +17,9 @@
                         <input v-model="password" type="password" class="form-control" id="password" name="password"
                             required>
                     </div>
+                    <div v-if="authStore.authError" class="alert alert-danger">
+                        {{ authStore.authError }}
+                    </div>
                     <button type="submit" class="btn btn-primary auth-button">{{ isLogin ? 'Login' : 'Register' }}</button>
                     <button @click="isLogin = !isLogin" class="btn btn-secondary">{{ isLogin ? 'Create an account' :
                         'Signin' }}</button>
@@ -27,16 +30,27 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from '@/stores/auth.store';
 import { ref } from 'vue'
+import router from '@/router';
 
+const authStore = useAuthStore();
 const isLogin = ref(true);
 
-const email = ref();
-const nickname = ref();
-const password = ref();
+const email = ref<string>();
+const nickname = ref<string>();
+const password = ref<string>();
 
-function handleAuth() {
-    console.log('');
+async function handleAuth() {
+    if (isLogin.value) {
+        await authStore.logIn({ email: email.value, password: password.value })
+    } else {
+        await authStore.register({ email: email.value, password: password.value })
+    }
+    if (!authStore.isAuth) {
+        return;
+    }
+    router.push(`/app`); // -> /user/eduardo
 }
 </script>
 

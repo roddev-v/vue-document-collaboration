@@ -1,16 +1,23 @@
+import { authGuard } from "@/guards/auth.guard";
+import { notAuthGuard } from "@/guards/not-auth.guard";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {
+    path: "/",
+    redirect: "/app",
+  },
+  {
     path: "/app",
     name: "home",
+    beforeEnter: authGuard,
     component: () => import("../views/HomeView.vue"),
   },
   {
-    path: "/",
+    path: "/auth",
     name: "auth",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AuthView.vue"),
+    beforeEnter: notAuthGuard,
+    component: () => import("../views/AuthView.vue"),
   },
 ];
 
