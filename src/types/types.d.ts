@@ -4,4 +4,14 @@ declare namespace Types {
     email: number;
     nickname: number;
   };
+
+  type Document = {
+    id: string;
+    title: string;
+    author: string;
+    authorEmail: string;
+    authorId: number;
+    createdAt: Date;
+    sharedUsers: User[];
+  };
 }

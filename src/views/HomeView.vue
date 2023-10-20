@@ -1,3 +1,7 @@
 <template>
-    <h1>Test</h1>
+    <DocumentsList></DocumentsList>
 </template>
+
+<script setup lang="ts">
+import DocumentsList from '../components/DocumentsList.vue'
+</script>
