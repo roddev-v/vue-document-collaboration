@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import { defineStore } from "pinia";
 
 export const useAuthStore = defineStore("authStore", {
-  state: (): Store.AuthStore => ({ token: null, user: null, error: null }),
+  state: (): Store.Auth => ({ token: null, user: null, error: null }),
   getters: {
     isAuth: (state) => !!state.token,
     authError: (state) => state.error,
@@ -31,6 +31,19 @@ export const useAuthStore = defineStore("authStore", {
         this.token = res.token;
         this.user = res.user;
         localStorage.setItem(StorageKeys.TOKEN, res.token);
+      } catch (e) {
+        const axiosError = e as AxiosError;
+        if (axiosError.response?.status === 400) {
+          this.error = "Please check your credentials!";
+        }
+      }
+    },
+    async checkToken(token: string) {
+      try {
+        this.error = null;
+        const res = await AuthService.checkToken(token);
+        this.user = res.user;
+        localStorage.setItem(StorageKeys.TOKEN, token);
       } catch (e) {
         const axiosError = e as AxiosError;
         if (axiosError.response?.status === 400) {

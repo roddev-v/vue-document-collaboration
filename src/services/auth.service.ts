@@ -12,4 +12,11 @@ export class AuthService {
     const res = await httpService.post(`${this.authUrl}/register`, dto);
     return res.data;
   }
+
+  static async checkToken(token: string): Promise<Dtos.TokenDto> {
+    const res = await httpService.post(`${this.authUrl}/check-token`, {
+      token,
+    });
+    return res.data;
+  }
 }

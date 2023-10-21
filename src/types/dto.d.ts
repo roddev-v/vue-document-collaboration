@@ -14,4 +14,9 @@ declare namespace Dtos {
     token: string;
     user: User;
   };
+
+  type TokenDto = {
+    isExpired: boolean;
+    user: User;
+  };
 }
