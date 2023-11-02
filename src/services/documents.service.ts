@@ -1,3 +1,4 @@
+import { Types } from "@/types/types";
 import httpService from "@/utils/http.service";
 
 export class DocumentsService {

@@ -1,11 +1,14 @@
 
 <template>
     <PageWrapper>
-        1. I first make the call to create a document
-        2. I will reach here after I create the document
+        <DocumentsList :documents="documentsStore.docs"></DocumentsList>
     </PageWrapper>
 </template>
 
 <script setup lang="ts">
+import DocumentsList from '@/components/DocumentsList.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
+import { useDocumentsStore } from '@/stores/documents.store';
+
+const documentsStore = useDocumentsStore();
 </script>

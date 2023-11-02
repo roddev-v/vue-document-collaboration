@@ -1,4 +1,4 @@
-declare namespace Types {
+export namespace Types {
   type User = {
     id: number;
     email: number;
