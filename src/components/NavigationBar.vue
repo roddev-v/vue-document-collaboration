@@ -1,13 +1,13 @@
 <template>
     <nav class="navigation">
-        <din class="navigation-content">
+        <div class="navigation-content">
             <div class="logo">
                 <a href="/">CoDocuments</a>
             </div>
             <div class="actions">
                 {{ authStore.user?.email }}
             </div>
-        </din>
+        </div>
     </nav>
 </template>
 

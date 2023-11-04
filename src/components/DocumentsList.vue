@@ -2,28 +2,9 @@
     <div class="documents-wrapper">
         <DocumentItem v-for="document in documents" :key="document.id" :document="document" />
     </div>
-    <button class="create-document">+</button>
 </template>
 
 <style scoped>
-.create-document {
-    position: fixed;
-    bottom: 1rem;
-    right: 1rem;
-    border: none;
-    border-radius: 50%;
-    width: 4rem;
-    height: 4rem;
-    background-color: white;
-    box-shadow: 1px 8px 24px #eee;
-    font-size: 2rem;
-    color: red;
-}
-
-.create-document:hover {
-    cursor: pointer;
-}
-
 .documents-wrapper {
     display: grid;
     gap: 0.5rem;
