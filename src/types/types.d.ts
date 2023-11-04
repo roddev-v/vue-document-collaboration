@@ -11,7 +11,7 @@ export namespace Types {
     author: string;
     authorEmail: string;
     authorId: number;
-    createdAt: Date;
+    createdAt: string;
     sharedUsers: User[];
   };
 }

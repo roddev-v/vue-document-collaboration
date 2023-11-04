@@ -1,9 +1,14 @@
+
+import NavigationBar from './NavigationBar.vue';
 <template>
+    <NavigationBar></NavigationBar>
     <div class="content">
         <slot></slot>
     </div>
 </template>
-
+<script lang="ts" setup>
+import NavigationBar from './NavigationBar.vue';
+</script>
 <style scoped>
 .content {
     margin-inline: auto;

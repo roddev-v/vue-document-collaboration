@@ -1,11 +1,13 @@
 <template>
     <nav class="navigation">
-        <div class="logo">
-            <a href="/">CoDocuments</a>
-        </div>
-        <div class="actions">
-            {{ authStore.user?.email }}
-        </div>
+        <din class="navigation-content">
+            <div class="logo">
+                <a href="/">CoDocuments</a>
+            </div>
+            <div class="actions">
+                {{ authStore.user?.email }}
+            </div>
+        </din>
     </nav>
 </template>
 
@@ -17,20 +19,22 @@ const authStore = useAuthStore();
 
 <style scoped>
 .navigation {
+    background-color: #eee;
+}
+
+.navigation-content {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 32px;
+    justify-content: space-between;
+    gap: 2rem;
     padding: 8px 16px;
-    background-color: #eee;
+    width: min(100%, 1024px);
+    margin-inline: auto;
 }
 
 .navigation .logo {
     flex: 1 0 10%;
-}
-
-.navigation .search {
-    flex: 1 1 100%;
 }
 
 .navigation .actions {
