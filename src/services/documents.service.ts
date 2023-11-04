@@ -15,4 +15,8 @@ export class DocumentsService {
     });
     return res.data;
   }
+
+  static async deleteDocument(id: string): Promise<void> {
+    await httpService.delete(`${this.documentsUrl}/${id}`);
+  }
 }

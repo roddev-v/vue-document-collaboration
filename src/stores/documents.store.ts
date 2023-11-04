@@ -28,5 +28,13 @@ export const useDocumentsStore = defineStore("documentsStore", {
         this.error = (e as AxiosError).message;
       }
     },
+    async deleteDocument(id: string) {
+      try {
+        await DocumentsService.deleteDocument(id);
+        this.documents = this.documents.filter((d) => d.id !== id);
+      } catch (e) {
+        this.error = (e as AxiosError).message;
+      }
+    },
   },
 });

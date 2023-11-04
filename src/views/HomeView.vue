@@ -5,6 +5,7 @@
         <DocumentsList :documents="documentsStore.documents" v-else></DocumentsList>
         <br>
         <h3>Documents shared with you</h3>
+        <button @click="createDocument">Create document</button>
     </PageWrapper>
 </template>
 
@@ -17,4 +18,8 @@ import { useDocumentsStore } from '@/stores/documents.store';
 
 const documentsStore = useDocumentsStore();
 documentsStore.getAll();
+
+async function createDocument() {
+    await documentsStore.createNewDocument();
+}
 </script>
