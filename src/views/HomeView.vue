@@ -1,7 +1,10 @@
 <template>
     <PageWrapper>
+        <h3>Your documents</h3>
         <NoDocuments v-if="documentsStore.empty" msg="You have no documents created!"></NoDocuments>
         <DocumentsList :documents="documentsStore.documents" v-else></DocumentsList>
+        <br>
+        <h3>Documents shared with you</h3>
     </PageWrapper>
 </template>
 
