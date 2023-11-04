@@ -1,9 +1,6 @@
 <template>
-    <h2>Your documents</h2>
     <div class="documents-wrapper">
-        <div v-for="document in documents" :key="document.id">
-            <DocumentItem :document="document" />
-        </div>
+        <DocumentItem v-for="document in documents" :key="document.id" :document="document" />
     </div>
 </template>
 

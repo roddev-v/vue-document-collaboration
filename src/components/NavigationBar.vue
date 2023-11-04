@@ -3,11 +3,6 @@
         <div class="logo">
             <a href="/">CoDocuments</a>
         </div>
-        <div class="search">
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            </form>
-        </div>
         <div class="actions">
             {{ authStore.user?.email }}
         </div>

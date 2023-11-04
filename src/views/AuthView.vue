@@ -61,7 +61,7 @@ async function handleAuth() {
     if (isLogin.value) {
         await authStore.logIn({ email: email.value, password: password.value })
     } else {
-        await authStore.register({ email: email.value, password: password.value })
+        await authStore.register({ email: email.value, password: password.value, nickname: nickname.value })
     }
     if (!authStore.isAuth) {
         return;

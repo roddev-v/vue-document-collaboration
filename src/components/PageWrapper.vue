@@ -7,6 +7,7 @@
 <style scoped>
 .content {
     margin-inline: auto;
-    width: min(100% - 2rem, 80%);
+    width: min(100%, 1024px);
+    padding: 0.5rem;
 }
 </style>

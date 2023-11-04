@@ -21,6 +21,7 @@ httpService.interceptors.response.use(
       useAuthStore().logOut();
       router.replace("/auth");
     }
+    return Promise.reject(err);
   }
 );
 

@@ -1,12 +1,13 @@
 <template>
     <div class="document">
         <h1 class="title">{{ document.title }}</h1>
-        <div>{{ document.createdAt }}</div>
+        <p>{{ document.createdAt }}</p>
     </div>
 </template>
 
 <style scoped>
 .document {
+    border-radius: 10px;
     border: 1px solid #eee;
     padding: 1rem;
     box-shadow: 1px 8px 24px #eee;
