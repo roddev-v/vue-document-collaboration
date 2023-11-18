@@ -5,6 +5,7 @@
         <div>Author: {{ document.author }}</div>
         <div>id: {{ document.id }}</div>
         <div class="document-actions">
+            <i class="fa-solid fa-user-plus" @click="inviteUser"></i>
             <i class="fa-solid fa-trash" @click="deleteDocument"></i>
         </div>
     </div>
@@ -22,6 +23,10 @@
 .document-actions {
     float: right;
     cursor: pointer;
+}
+
+.document-actions i {
+    margin-inline: 4px;
 }
 
 .document:hover {
@@ -46,5 +51,9 @@ const props = defineProps({
 
 async function deleteDocument() {
     await documentStore.deleteDocument(props.document.id);
+}
+
+async function inviteUser() {
+    await documentStore.inviteUser(props.document.id);
 }
 </script>

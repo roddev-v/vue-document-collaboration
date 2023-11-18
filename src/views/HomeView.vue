@@ -35,6 +35,7 @@ import DocumentsList from '@/components/DocumentsList.vue'
 import NoDocuments from '@/components/NoDocuments.vue';
 
 import { useDocumentsStore } from '@/stores/documents.store';
+import { NotificationsService } from '@/services/notifications.service';
 
 const documentsStore = useDocumentsStore();
 documentsStore.getAll();
@@ -42,4 +43,6 @@ documentsStore.getAll();
 async function createDocument() {
     await documentsStore.createNewDocument();
 }
+
+NotificationsService.subscribe();
 </script>

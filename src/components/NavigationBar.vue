@@ -1,43 +1,19 @@
 <template>
-    <nav class="navigation">
-        <div class="navigation-content">
-            <div class="logo">
-                <a href="/">CoDocuments</a>
-            </div>
-            <div class="actions">
-                {{ authStore.user?.email }}
-            </div>
+    <Menubar>
+    <template #start>
+        CoDocuments
+    </template>
+    <template #end>
+        <div class="flex align-items-center gap-2">
+            {{ authStore.user?.nickname }}
         </div>
-    </nav>
+    </template>
+</Menubar>
 </template>
 
 <script setup lang="ts">
 import { useAuthStore } from '../stores/auth.store';
+import Menubar from "primevue/menubar";
 
 const authStore = useAuthStore();
 </script>
-
-<style scoped>
-.navigation {
-    background-color: #eee;
-}
-
-.navigation-content {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
-    padding: 8px 16px;
-    width: min(100%, 1024px);
-    margin-inline: auto;
-}
-
-.navigation .logo {
-    flex: 1 0 10%;
-}
-
-.navigation .actions {
-    flex: 0 0 10%;
-}
-</style>

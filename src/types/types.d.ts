@@ -15,3 +15,21 @@ export namespace Types {
     sharedUsers: User[];
   };
 }
+
+
+/**
+ * private Long id;
+    private Long senderId;
+    private String senderEmail;
+    private String senderNickname;
+
+    private String documentId;
+
+    private Long recipientId;
+    private Boolean delivered;
+
+    private String title;
+    private String content;
+
+    private String createdAt;
+ */
