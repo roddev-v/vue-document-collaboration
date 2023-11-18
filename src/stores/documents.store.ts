@@ -36,9 +36,10 @@ export const useDocumentsStore = defineStore("documentsStore", {
         this.error = (e as AxiosError).message;
       }
     },
-    async inviteUser(documentId: string) {
+    async inviteUser(documentId: string, query: string) {
       try {
-        await DocumentsService.inviteToDocument(documentId);
+        this.error = null;
+        await DocumentsService.inviteToDocument(documentId, query);
       } catch (e) {
         this.error = (e as AxiosError).message;
       }

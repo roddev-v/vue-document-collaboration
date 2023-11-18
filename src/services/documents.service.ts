@@ -20,13 +20,13 @@ export class DocumentsService {
     await httpService.delete(`${this.documentsUrl}/${id}`);
   }
 
-  static async inviteToDocument(documentId: string): Promise<void> {
-    // TODO
+  static async inviteToDocument(
+    documentId: string,
+    query: string
+  ): Promise<void> {
     await httpService.post(`${this.documentsUrl}/invite`, {
-      documentId,
-      users: [{
-        id: 2
-      }]
+      documentId: documentId,
+      query: query,
     });
   }
 }
