@@ -1,5 +1,10 @@
 import { useAuthStore } from "@/stores/auth.store";
+import { useToast } from "primevue/usetoast";
+import { Notification } from "@/models/notification.model";
 import httpService from "@/utils/http.service";
+import { useDocumentsStore } from "@/stores/documents.store";
+import { ActionsToDahsboardNavigate, ActionsToRefresh } from "@/utils/consts";
+import { useRouter } from "vue-router";
 
 declare const EventSourcePolyfill: any;
 
@@ -10,6 +15,11 @@ export class NotificationsService {
 
   static subscribe() {
     const url = `${this.notificationsUrl}/subscribe`;
+
+    const router = useRouter();
+    const toast = useToast();
+    const documentsStore = useDocumentsStore();
+
     this.eventSource = new EventSourcePolyfill(url, {
       headers: {
         Authorization: `Bearer ${authStore.token}`,
@@ -19,12 +29,18 @@ export class NotificationsService {
       console.log("Open to receive notifications");
 
     this.eventSource.onmessage = (msg) => {
-      console.log(`Incomming message: ${JSON.stringify(msg)}`);
+      const notification = new Notification(JSON.parse(msg.data));
+      toast.add(notification.view);
+
+      if (ActionsToDahsboardNavigate.includes(notification.type!)) {
+        router.replace("/app");
+      }
+      if (ActionsToRefresh.includes(notification.type!)) {
+        documentsStore.refreshData();
+      }
     };
 
-    this.eventSource.onerror = (e) => {
-      console.error(e);
-    };
+    this.eventSource.onerror = (e) => console.error(e);
   }
 
   static unsubscribe() {

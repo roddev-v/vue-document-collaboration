@@ -13,6 +13,9 @@ export const useDocumentsStore = defineStore("documentsStore", {
     emptyShared: (store) => store.sharedDocuments?.length === 0,
   },
   actions: {
+    async refreshData() {
+      await Promise.all([this.getAll(), this.getShared()]);
+    },
     async getAll() {
       try {
         const res = await DocumentsService.getAll();
@@ -51,6 +54,7 @@ export const useDocumentsStore = defineStore("documentsStore", {
       try {
         this.error = null;
         await DocumentsService.joinDocument(documentId);
+        await this.getShared();
       } catch (e) {
         this.error = (e as AxiosError).message;
       }

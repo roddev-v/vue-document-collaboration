@@ -3,6 +3,7 @@ import { createPinia } from "pinia";
 import { useAuthStore } from "./stores/auth.store";
 import { StorageKeys } from "./utils/consts";
 
+import ToastService from "primevue/toastservice";
 import PrimeVue from "primevue/config";
 import App from "./App.vue";
 import router from "./router";
@@ -15,6 +16,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const pinia = createPinia();
 const app = createApp(App)
+  .use(ToastService)
   .use(ConfirmationService)
   .use(PrimeVue)
   .use(router)

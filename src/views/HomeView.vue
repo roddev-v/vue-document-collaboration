@@ -69,6 +69,7 @@ async function createDocument() {
 }
 async function joinDocument() {
     await documentsStore.joinDocument(documentId.value);
+    joinModalVisible.value = false;
 }
 NotificationsService.subscribe();
 </script>
