@@ -1,12 +1,4 @@
 <template>
-    <Dialog v-model:visible="isInviteUserModalVisible" modal header="Invite users" :style="{ width: '50rem' }"
-        :breakpoints="{ '1199px': '50vw', '575px': '70vw' }">
-        <div class="m-0 grid" style="gap: 0.5rem;">
-            <InputText style="flex: 1;" type="text" placeholder="Email or nickname" v-model="query"></InputText>
-            <Button @click="inviteUser">Invite</Button>
-        </div>
-        <Message severity="error" v-if="documentStore.error" :closable="false">{{ documentStore.error }}</Message>
-    </Dialog>
     <ConfirmPopup></ConfirmPopup>
     <Card class="document">
         <template #title> {{ document.title }}</template>
@@ -17,7 +9,7 @@
             <p>Author: {{ document.author }}</p>
             <p>id: {{ document.id }}</p>
             <div class="document-actions">
-                <i class="fa-solid fa-user-plus" @click="isInviteUserModalVisible = !isInviteUserModalVisible"></i>
+                <i class="fa-solid fa-copy" @click="copyDocumentId()"></i>
                 <i class="fa-solid fa-trash" @click="deleteDocument($event)"></i>
             </div>
         </template>
@@ -47,16 +39,9 @@ import { useConfirm } from "primevue/useconfirm";
 
 import Card from 'primevue/card';
 import ConfirmPopup from 'primevue/confirmpopup';
-import Dialog from 'primevue/dialog';
-import InputText from 'primevue/inputtext';
-import Button from 'primevue/button';
-import Message from 'primevue/message';
 
 const documentStore = useDocumentsStore();
 const confirm = useConfirm();
-
-const query = ref();
-const isInviteUserModalVisible = ref(false);
 
 const props = defineProps({
     document: {
@@ -76,7 +61,7 @@ function deleteDocument(event: any) {
     });
 }
 
-async function inviteUser() {
-    await documentStore.inviteUser(props.document.id, query.value);
+function copyDocumentId() {
+    window.navigator.clipboard.writeText(props.document.id);
 }
 </script>

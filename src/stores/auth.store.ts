@@ -51,6 +51,9 @@ export const useAuthStore = defineStore("authStore", {
         }
       }
     },
+    clearErrors() {
+      this.error = null;
+    },
     setToken(token: string) {
       this.token = token;
     },

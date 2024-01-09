@@ -9,6 +9,11 @@ export class DocumentsService {
     return res.data;
   }
 
+  static async getShared(): Promise<Types.Document[]> {
+    const res = await httpService.get(`${this.documentsUrl}/shared`);
+    return res.data;
+  }
+
   static async createNewDocument(): Promise<Types.Document> {
     const res = await httpService.post(`${this.documentsUrl}/create`, {
       title: "Untitled document",
@@ -20,13 +25,9 @@ export class DocumentsService {
     await httpService.delete(`${this.documentsUrl}/${id}`);
   }
 
-  static async inviteToDocument(
+  static async joinDocument(
     documentId: string,
-    query: string
   ): Promise<void> {
-    await httpService.post(`${this.documentsUrl}/invite`, {
-      documentId: documentId,
-      query: query,
-    });
+    await httpService.post(`${this.documentsUrl}/join/${documentId}`);
   }
 }

@@ -68,6 +68,7 @@ const nickname = ref<string>();
 const password = ref<string>();
 
 async function handleAuth() {
+    authStore.clearErrors();
     if (isLogin.value) {
         await authStore.logIn({ email: email.value!, password: password.value! })
     } else {

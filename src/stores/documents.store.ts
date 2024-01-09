@@ -4,11 +4,13 @@ import { defineStore } from "pinia";
 import router from "@/router";
 
 export const useDocumentsStore = defineStore("documentsStore", {
-  state: (): Store.Documents => ({ documents: [], error: null }),
+  state: (): Store.Documents => ({ documents: [], sharedDocuments: [], error: null }),
   getters: {
     docs: (store) => store.documents,
+    shared: (store) => store.sharedDocuments,
     documentsError: (store) => store.error,
     empty: (store) => store.documents?.length === 0,
+    emptyShared: (store) => store.sharedDocuments?.length === 0,
   },
   actions: {
     async getAll() {
@@ -16,6 +18,15 @@ export const useDocumentsStore = defineStore("documentsStore", {
         const res = await DocumentsService.getAll();
         this.error = null;
         this.documents = res;
+      } catch (e) {
+        this.error = (e as AxiosError).message;
+      }
+    },
+    async getShared() {
+      try {
+        const res = await DocumentsService.getShared();
+        this.error = null;
+        this.sharedDocuments = res;
       } catch (e) {
         this.error = (e as AxiosError).message;
       }
@@ -36,10 +47,10 @@ export const useDocumentsStore = defineStore("documentsStore", {
         this.error = (e as AxiosError).message;
       }
     },
-    async inviteUser(documentId: string, query: string) {
+    async joinDocument(documentId: string) {
       try {
         this.error = null;
-        await DocumentsService.inviteToDocument(documentId, query);
+        await DocumentsService.joinDocument(documentId);
       } catch (e) {
         this.error = (e as AxiosError).message;
       }

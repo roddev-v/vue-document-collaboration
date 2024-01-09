@@ -7,6 +7,7 @@ declare namespace Store {
 
   type Documents = {
     documents: Types.Document[],
+    sharedDocuments: Types.Document[],
     error: string | null;
   }
 }
