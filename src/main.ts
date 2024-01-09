@@ -8,6 +8,7 @@ import PrimeVue from "primevue/config";
 import App from "./App.vue";
 import router from "./router";
 import ConfirmationService from "primevue/confirmationservice";
+import Tooltip from "primevue/tooltip";
 
 import "primeflex/primeflex.css";
 import "primevue/resources/themes/lara-light-teal/theme.css";
@@ -20,7 +21,8 @@ const app = createApp(App)
   .use(ConfirmationService)
   .use(PrimeVue)
   .use(router)
-  .use(pinia);
+  .use(pinia)
+  .directive("tooltip", Tooltip);
 
 const auth = useAuthStore();
 const token = localStorage.getItem(StorageKeys.TOKEN);

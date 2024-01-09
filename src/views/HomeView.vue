@@ -4,9 +4,9 @@
         <NoDocuments v-if="documentsStore.empty" msg="You have no documents created!"></NoDocuments>
         <DocumentsList :documents="documentsStore.documents" v-else></DocumentsList>
         <br>
-        <div>
+        <div class="flex justify-content-between ">
             <h3>Documents shared with you</h3>
-            <button @click="joinModalVisible = true">Join document</button>
+            <Button label="Join document" link outlined @click="joinModalVisible = true" />
         </div>
         <NoDocuments v-if="documentsStore.emptyShared" msg="You have no documents created!"></NoDocuments>
         <DocumentsList :documents="documentsStore.shared" v-else></DocumentsList>
@@ -16,7 +16,7 @@
         :breakpoints="{ '1199px': '50vw', '575px': '70vw' }">
         <div class="m-0 grid" style="gap: 0.5rem;">
             <InputText style="flex: 1;" type="text" placeholder="Enter document ID" v-model="documentId"></InputText>
-            <Button @click="joinDocument">Invite</Button>
+            <Button @click="joinDocument">Join</Button>
         </div>
         <Message severity="error" v-if="documentsStore.error" :closable="false">{{ documentsStore.error }}</Message>
     </Dialog>

@@ -3,7 +3,6 @@ declare namespace Store {
     token: string | null;
     user: Types.User | null;
     error: string | null;
-  };
 
   type Documents = {
     documents: Types.Document[],

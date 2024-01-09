@@ -1,16 +1,21 @@
 <template>
     <ConfirmPopup></ConfirmPopup>
     <Card class="document">
-        <template #title> {{ document.title }}</template>
+        <template #title>
+            {{ document.title }}
+            <i class="fa fa-people-arrows" v-if="document.sharedUsers.length"></i>
+        </template>
         <template #content>
             <p>
                 {{ new Intl.DateTimeFormat("en-US").format(new Date(document.createdAt)) }}
             </p>
-            <p>Author: {{ document.author }}</p>
+            <p>
+                Author: {{ document.author }}
+            </p>
             <p>id: {{ document.id }}</p>
-            <div class="document-actions">
-                <i class="fa-solid fa-copy" @click="copyDocumentId()"></i>
-                <i class="fa-solid fa-trash" @click="deleteDocument($event)"></i>
+            <div class="document-actions" v-if="document.authorId === user.id">
+                <i class="fa-solid fa-copy" v-tooltip="'Copy document ID'" @click="copyDocumentId()"></i>
+                <i class="fa-solid fa-trash" v-tooltip="'Delete document'" @click="deleteDocument($event)"></i>
             </div>
         </template>
     </Card>
@@ -39,9 +44,11 @@ import { useConfirm } from "primevue/useconfirm";
 
 import Card from 'primevue/card';
 import ConfirmPopup from 'primevue/confirmpopup';
+import { useAuthStore } from '@/stores/auth.store';
 
 const documentStore = useDocumentsStore();
 const confirm = useConfirm();
+const { user } = useAuthStore();
 
 const props = defineProps({
     document: {
