@@ -1,15 +1,33 @@
 
+<style scoped>
+.title {
+    outline: none;
+    width: 100%;
+    font-weight: bold;
+    font-size: 3rem;
+    font-family: inherit;
+    height: min-content;
+}
+
+.content {
+    width: 100%;
+    height: 80vh;
+}
+</style>
 <template>
     <PageWrapper>
         <div class="document">
-            <textarea v-bind:value="documentRegister?.title" class="title" @input="updateTitle"/>
-            <textarea v-bind:value="documentRegister?.content" class="content" @input="updateContent"/>
+            <InputText v-bind:value="documentRegister?.title" class="title" @input="updateTitle" />
+            <Textarea v-bind:value="documentRegister?.content" class="content" @input="updateContent" />
         </div>
     </PageWrapper>
 </template>
 
 <script setup lang="ts">
 import PageWrapper from '@/components/PageWrapper.vue';
+import Textarea from 'primevue/textarea';
+import InputText from 'primevue/inputtext';
+
 import { DocumentRegisterModel } from '@/models/document.model';
 import { ContentService } from '@/services/content.service';
 import { DocumentContentRTC } from '@/services/document-content.rtc';
