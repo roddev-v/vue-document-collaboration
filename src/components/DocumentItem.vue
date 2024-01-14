@@ -13,9 +13,11 @@
                 Author: {{ document.author }}
             </p>
             <p>id: {{ document.id }}</p>
-            <div class="document-actions" v-if="document.authorId === user.id">
-                <i class="fa-solid fa-copy" v-tooltip="'Copy document ID'" @click="copyDocumentId()"></i>
-                <i class="fa-solid fa-trash" v-tooltip="'Delete'" @click="deleteDocument($event)"></i>
+            <div class="document-actions">
+                <span v-if="document.authorId === user.id">
+                    <i class="fa-solid fa-copy" v-tooltip="'Copy document ID'" @click="copyDocumentId()"></i>
+                    <i class="fa-solid fa-trash" v-tooltip="'Delete'" @click="deleteDocument($event)"></i>
+                </span>
                 <i class="fa-solid fa-edit" v-tooltip="'Edit'" @click="editDocument()"></i>
             </div>
         </template>
