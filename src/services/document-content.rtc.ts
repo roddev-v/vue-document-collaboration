@@ -2,7 +2,7 @@ import { Client, Message } from "stompjs";
 import { RTCService } from "./rtc.service";
 
 export class DocumentContentRTC {
-  private connectUrl = `http://143.244.204.33/rtc`;
+  private connectUrl = `${process.env?.VUE_APP_API_BASE_URL}/rtc`;
   private client: Client;
   private readonly changesUrl: string;
   private readonly updatesUrl: string;

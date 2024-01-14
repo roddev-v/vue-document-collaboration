@@ -28,7 +28,7 @@ import PageWrapper from '@/components/PageWrapper.vue';
 import Textarea from 'primevue/textarea';
 import InputText from 'primevue/inputtext';
 
-import { DocumentRegisterModel } from '@/models/document.model';
+import { DocumentRegisterModel } from '@/models/document-register.model';
 import { ContentService } from '@/services/content.service';
 import { DocumentContentRTC } from '@/services/document-content.rtc';
 

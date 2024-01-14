@@ -7,10 +7,6 @@ export class DocumentRegisterModel {
   private titleRegister: LWWRegister<string>;
   private contentRegister: LWWRegister<string>;
 
-  get id(): string {
-    return this.id;
-  }
-
   get title(): string {
     return this.titleRegister.value;
   }
@@ -31,14 +27,14 @@ export class DocumentRegisterModel {
     this._id = document.id;
 
     this.titleRegister = new LWWRegister(`${this._id}-title`, [
-      `${this._id}-title-0`,
-      Date.now(),
+      `${this._id}-title`,
+      1,
       document.title,
     ]);
 
     this.contentRegister = new LWWRegister(`${this._id}-content`, [
-      `${this._id}-content-0`,
-      Date.now(),
+      `${this._id}-content`,
+      1,
       document.content,
     ]);
   }
