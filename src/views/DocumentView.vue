@@ -1,14 +1,20 @@
 
 <template>
     <PageWrapper>
-        <DocumentsList :documents="documentsStore.docs"></DocumentsList>
+
     </PageWrapper>
 </template>
 
 <script setup lang="ts">
-import DocumentsList from '@/components/DocumentsList.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import { useDocumentsStore } from '@/stores/documents.store';
+import { ContentService } from '@/services/content.service';
+import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
-const documentsStore = useDocumentsStore();
+onMounted(async () =>  {
+    const route = useRouter();
+    const documentId = route.currentRoute.value.params.id as string;
+    await ContentService.get(documentId);
+})
+
 </script>

@@ -15,7 +15,8 @@
             <p>id: {{ document.id }}</p>
             <div class="document-actions" v-if="document.authorId === user.id">
                 <i class="fa-solid fa-copy" v-tooltip="'Copy document ID'" @click="copyDocumentId()"></i>
-                <i class="fa-solid fa-trash" v-tooltip="'Delete document'" @click="deleteDocument($event)"></i>
+                <i class="fa-solid fa-trash" v-tooltip="'Delete'" @click="deleteDocument($event)"></i>
+                <i class="fa-solid fa-edit" v-tooltip="'Edit'" @click="editDocument()"></i>
             </div>
         </template>
     </Card>
@@ -45,6 +46,7 @@ import { useConfirm } from "primevue/useconfirm";
 import Card from 'primevue/card';
 import ConfirmPopup from 'primevue/confirmpopup';
 import { useAuthStore } from '@/stores/auth.store';
+import router from '@/router';
 
 const documentStore = useDocumentsStore();
 const confirm = useConfirm();
@@ -70,5 +72,9 @@ function deleteDocument(event: any) {
 
 function copyDocumentId() {
     window.navigator.clipboard.writeText(props.document.id);
+}
+
+function editDocument() {
+    router.push(`/app/document/${props.document.id}`);
 }
 </script>

@@ -1,6 +1,7 @@
 import { DocumentsService } from "@/services/documents.service";
 import { AxiosError } from "axios";
 import { defineStore } from "pinia";
+import { ContentService } from "@/services/content.service";
 import router from "@/router";
 
 export const useDocumentsStore = defineStore("documentsStore", {
@@ -37,6 +38,7 @@ export const useDocumentsStore = defineStore("documentsStore", {
     async createNewDocument() {
       try {
         const res = await DocumentsService.createNewDocument();
+        await ContentService.create(res);
         router.push(`/app/document/${res.id}`);
       } catch (e) {
         this.error = (e as AxiosError).message;

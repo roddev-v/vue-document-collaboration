@@ -14,6 +14,12 @@ export namespace Types {
     createdAt: string;
     sharedUsers: User[];
   };
+
+  type DocumentContent = {
+    id: string;
+    title: string;
+    content: string;
+  };
 }
 
 
