@@ -4,21 +4,51 @@
     outline: none;
     width: 100%;
     font-weight: bold;
-    font-size: 3rem;
+    font-size: 1rem;
     font-family: inherit;
     height: min-content;
 }
 
 .content {
     width: 100%;
-    height: 80vh;
+    flex: 1;
+    resize: none;
+}
+
+.document {
+    height: 90dvh;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 4px;
+    flex-basis: 300px;
+    flex-grow: 999;
+}
+
+.logs {
+    flex-basis: 200px;
+    flex-grow: 1;
+}
+
+.editor-view {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 </style>
 <template>
     <PageWrapper>
-        <div class="document">
-            <InputText v-bind:value="documentRegister?.title" class="title" @input="updateTitle" />
-            <Textarea v-bind:value="documentRegister?.content" class="content" @input="updateContent" />
+        <div class="editor-view">
+            <div class="document">
+                <InputText v-bind:value="documentRegister?.title" class="title" @input="updateTitle" />
+                <Textarea v-bind:value="documentRegister?.content" class="content" @input="updateContent" />
+            </div>
+            <div class="logs">
+                <h3>Session logs</h3>
+                <ul>
+                    <li v-for="{ type, userId } in sessionLogs" v-bind:key="type">{{ type }} - Id: {{ userId }}</li>
+                </ul>
+            </div>
         </div>
     </PageWrapper>
 </template>
@@ -34,9 +64,13 @@ import { DocumentContentRTC } from '@/services/document-content.rtc';
 
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth.store';
 
 let documentRegister = ref<DocumentRegisterModel>();
 let rtc: DocumentContentRTC;
+
+const authStore = useAuthStore();
+const sessionLogs = ref<any[]>([]);
 
 onMounted(async () => {
     const route = useRouter();
@@ -51,7 +85,7 @@ onMounted(async () => {
 
 function initListener() {
     rtc.subscribe((payload) => {
-        console.log(payload);
+        sessionLogs.value.push(payload);
         if (payload.type === "update_title") {
             documentRegister?.value?.mergeTitle(payload.state);
         } else {
@@ -62,12 +96,12 @@ function initListener() {
 
 function updateTitle(e: any) {
     documentRegister.value?.updateTitle(e.target.value);
-    rtc.send({ type: "update_title", state: documentRegister.value?.titleState })
+    rtc.send({ type: "update_title", state: documentRegister.value?.titleState, userId: authStore.user.id })
 }
 
 function updateContent(e: any) {
     documentRegister.value?.updateContent(e.target.value);
-    rtc.send({ type: "update_content", state: documentRegister.value?.contentState })
+    rtc.send({ type: "update_content", state: documentRegister.value?.contentState, userId: authStore.user.id })
 }
 
 </script>

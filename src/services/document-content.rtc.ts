@@ -20,7 +20,7 @@ export class DocumentContentRTC {
     this.client.connect({}, onConnected, onError);
   }
 
-  send(event: { type: "update_title" | "update_content"; state: any }) {
+  send(event: { type: "update_title" | "update_content"; state: any; userId: string }) {
     this.client.send(this.changesUrl, {}, JSON.stringify(event));
   }
 
