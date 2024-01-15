@@ -3,10 +3,10 @@ declare namespace Store {
     token: string | null;
     user: Types.User | null;
     error: string | null;
-
+  };
   type Documents = {
-    documents: Types.Document[],
-    sharedDocuments: Types.Document[],
+    documents: Types.Document[];
+    sharedDocuments: Types.Document[];
     error: string | null;
-  }
+  };
 }

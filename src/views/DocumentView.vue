@@ -28,12 +28,22 @@
 .logs {
     flex-basis: 200px;
     flex-grow: 1;
+    overflow: scroll;
+    height: 90dvh;
 }
 
 .editor-view {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+}
+
+.currentUser {
+    color: green;
+}
+
+.otherUsers {
+    color: blue;
 }
 </style>
 <template>
@@ -45,8 +55,9 @@
             </div>
             <div class="logs">
                 <h3>Session logs</h3>
-                <ul>
-                    <li v-for="{ type, userId } in sessionLogs" v-bind:key="type">{{ type }} - Id: {{ userId }}</li>
+                <ul style="padding: 0;">
+                    <li :class="userId === authStore.user.id ? 'currentUser' : 'otherUsers'"
+                        v-for="{ type, userId } in sessionLogs" v-bind:key="type">{{ type }} - Id: {{ userId }}</li>
                 </ul>
             </div>
         </div>
@@ -62,7 +73,7 @@ import { DocumentRegisterModel } from '@/models/document-register.model';
 import { ContentService } from '@/services/content.service';
 import { DocumentContentRTC } from '@/services/document-content.rtc';
 
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth.store';
 
@@ -82,6 +93,8 @@ onMounted(async () => {
     rtc = new DocumentContentRTC(content.id);
     rtc.connect(() => initListener());
 })
+
+onUnmounted(() => rtc.disconnect());
 
 function initListener() {
     rtc.subscribe((payload) => {

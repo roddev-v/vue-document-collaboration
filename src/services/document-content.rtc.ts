@@ -29,6 +29,10 @@ export class DocumentContentRTC {
       cb(JSON.parse(message.body))
     );
   }
+
+  disconnect(cb = () => console.log('Disconnected from RTC')): void {
+    this.client.disconnect(cb);
+  }
 }
 
 // TODO
