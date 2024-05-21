@@ -1,4 +1,3 @@
-
 <style scoped>
 .title {
     outline: none;
@@ -82,6 +81,7 @@ let rtc: DocumentContentRTC;
 
 const authStore = useAuthStore();
 const sessionLogs = ref<any[]>([]);
+const currentDocumentId = ref<string>('');
 
 onMounted(async () => {
     const route = useRouter();
@@ -89,6 +89,7 @@ onMounted(async () => {
     const content = await ContentService.get(documentId);
 
     documentRegister.value = new DocumentRegisterModel(content);
+    currentDocumentId.value = documentId;
 
     rtc = new DocumentContentRTC(content.id);
     rtc.connect(() => initListener());
@@ -109,12 +110,12 @@ function initListener() {
 
 function updateTitle(e: any) {
     documentRegister.value?.updateTitle(e.target.value);
-    rtc.send({ type: "update_title", state: documentRegister.value?.titleState, userId: authStore.user.id })
+    rtc.send({ type: "update_title", state: documentRegister.value?.titleState, userId: authStore.user.id, documentId: currentDocumentId.value })
 }
 
 function updateContent(e: any) {
     documentRegister.value?.updateContent(e.target.value);
-    rtc.send({ type: "update_content", state: documentRegister.value?.contentState, userId: authStore.user.id })
+    rtc.send({ type: "update_content", state: documentRegister.value?.contentState, userId: authStore.user.id, documentId: currentDocumentId.value })
 }
 
 </script>
