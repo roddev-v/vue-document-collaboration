@@ -12,6 +12,7 @@ export namespace Types {
     authorEmail: string;
     authorId: number;
     createdAt: string;
+    lastEditedAt: string;
     sharedUsers: User[];
   };
 

@@ -7,7 +7,10 @@
         </template>
         <template #content>
             <p>
-                {{ new Intl.DateTimeFormat("en-US").format(new Date(document.createdAt)) }}
+                Created at: {{ new Intl.DateTimeFormat("en-US").format(new Date(document.createdAt)) }}
+            </p>
+            <p>
+                Last edited at: {{ new Intl.DateTimeFormat("en-US").format(new Date(document.lastEditedAt)) }}
             </p>
             <p>
                 Author: {{ document.author }}
