@@ -20,8 +20,18 @@ export namespace Types {
     title: string;
     content: string;
   };
-}
 
+  type Notification = {
+    id: number;
+    senderId: number;
+    senderEmail: string;
+    senderNickname: string;
+    recipientId: number;
+    delivered: boolean;
+    createdAt: string;
+    type: string;
+  };
+}
 
 /**
  * private Long id;

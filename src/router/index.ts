@@ -14,6 +14,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/HomeView.vue"),
   },
   {
+    path: "/app/notifications",
+    name: "notifications",
+    beforeEnter: authGuard,
+    component: () => import("../views/NotificationsView.vue"),
+  },
+  {
     path: "/app/document/:id",
     name: "create-document",
     beforeEnter: authGuard,

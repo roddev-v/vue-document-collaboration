@@ -14,5 +14,6 @@ import NavigationBar from './NavigationBar.vue';
     margin-inline: auto;
     width: min(100%, 1024px);
     padding: 0.5rem;
+    height: 100%;
 }
 </style>

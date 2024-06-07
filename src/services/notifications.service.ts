@@ -5,6 +5,7 @@ import httpService from "@/utils/http.service";
 import { useDocumentsStore } from "@/stores/documents.store";
 import { ActionsToDahsboardNavigate, ActionsToRefresh } from "@/utils/consts";
 import { useRouter } from "vue-router";
+import { Types } from "@/types/types";
 
 declare const EventSourcePolyfill: any;
 
@@ -47,7 +48,15 @@ export class NotificationsService {
     this.eventSource.close();
   }
 
-  static async genUnread(): Promise<any> {
-    await httpService.get(`${this.notificationsUrl}/unread`);
+  static async genUnread(): Promise<Types.Notification[]> {
+    return (await httpService.get(`${this.notificationsUrl}`)).data;
+  }
+
+  static async getRead():  Promise<Types.Notification[]>  {
+    return (await httpService.get(`${this.notificationsUrl}/read`)).data;
+  }
+
+  static async readAll(): Promise<void> {
+    await httpService.post(`${this.notificationsUrl}/read-all`);
   }
 }

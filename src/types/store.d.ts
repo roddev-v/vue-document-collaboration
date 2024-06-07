@@ -9,4 +9,8 @@ declare namespace Store {
     sharedDocuments: Types.Document[];
     error: string | null;
   };
+  type Notifications = {
+    notifications: Types.Notification[];
+    readNotifications: Types.Notificationp[];
+  }
 }
