@@ -49,6 +49,11 @@
   <PageWrapper>
     <div class="editor-view">
       <div class="document">
+        <SharedUsers
+          v-if="document?.sharedUsers?.length"
+          :users="document.sharedUsers"
+          :document-id="document.id"
+        />
         <InputText
           v-bind:value="documentRegister?.title"
           class="title"
@@ -88,8 +93,12 @@ import { DocumentContentRTC } from "@/services/document-content.rtc";
 import { onMounted, onUnmounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth.store";
+import SharedUsers from "@/components/SharedUsers.vue";
+import { DocumentsService } from "@/services/documents.service";
+import { Types } from "@/types/types";
 
 let documentRegister = ref<DocumentRegisterModel>();
+let document: Types.Document;
 let rtc: DocumentContentRTC;
 
 const authStore = useAuthStore();
@@ -100,6 +109,7 @@ onMounted(async () => {
   const route = useRouter();
   const documentId = route.currentRoute.value.params.id as string;
   const content = await ContentService.get(documentId);
+  document = await DocumentsService.getDocument(documentId);
 
   documentRegister.value = new DocumentRegisterModel(content);
   currentDocumentId.value = documentId;

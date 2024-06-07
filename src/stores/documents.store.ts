@@ -61,5 +61,8 @@ export const useDocumentsStore = defineStore("documentsStore", {
         this.error = (e as AxiosError).message;
       }
     },
+    async revokeAccess(userId: number, documentId: string) {
+      await DocumentsService.revokeAccess(userId, documentId);
+    }
   },
 });

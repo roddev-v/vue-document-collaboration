@@ -1,8 +1,8 @@
 export namespace Types {
   type User = {
     id: number;
-    email: number;
-    nickname: number;
+    email: string;
+    nickname: string;
   };
 
   type Document = {
