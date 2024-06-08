@@ -16,6 +16,7 @@ export const useDocumentSessionStore = defineStore("documentSessionStore", {
     sharedUsers: [],
     register: null,
     rtcSession: null,
+    sessionLogs: [],
   }),
   getters: {
     documentId: (store) => store.id,
@@ -25,7 +26,8 @@ export const useDocumentSessionStore = defineStore("documentSessionStore", {
     isSharedWithUsers: (store) => store.sharedUsers?.length > 0,
     titleState: (store) => store.register?.titleState,
     contentState: (store) => store.register?.contentState,
-    canRevokeAccess: (store) => authStore.user.id === store.authorId
+    canRevokeAccess: (store) => authStore.user.id === store.authorId,
+    logs: (store) => store.sessionLogs,
   },
   actions: {
     async load(id: string): Promise<void> {
@@ -72,6 +74,7 @@ export const useDocumentSessionStore = defineStore("documentSessionStore", {
       this.register?.mergeContent(state);
     },
     mergeRTCEvent(event: any) {
+      this.sessionLogs.push(event);
       if (event.type === "update_title") {
         this.mergeTitle(event.state);
       } else {
@@ -87,6 +90,7 @@ export const useDocumentSessionStore = defineStore("documentSessionStore", {
     disconnectRTCSession(): void {
       this.rtcSession?.disconnect();
       this.rtcSession = null;
+      this.sessionLogs = [];
     },
   },
 });

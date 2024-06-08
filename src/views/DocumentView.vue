@@ -71,7 +71,7 @@
         <ul style="padding: 0">
           <li
             :class="userId === authStore.user.id ? 'currentUser' : 'otherUsers'"
-            v-for="{ type, userId } in sessionLogs"
+            v-for="{ type, userId } in documentSessionStore.logs"
             v-bind:key="type"
           >
             {{ type }} - Id: {{ userId }}
@@ -97,8 +97,6 @@ import { useDocumentSessionStore } from "@/stores/document-session.store";
 const authStore = useAuthStore();
 const documentSessionStore = useDocumentSessionStore();
 const currentDocumentId = ref<string>("");
-
-const sessionLogs = ref<any[]>([]);
 
 onMounted(async () => {
   const route = useRouter();

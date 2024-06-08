@@ -15,12 +15,13 @@ declare namespace Store {
   type Notifications = {
     notifications: Types.Notification[];
     readNotifications: Types.Notificationp[];
-  }
+  };
   type DocumentSession = {
     id: string;
     authorId: number;
     sharedUsers: Types.User[];
     register: DocumentRegister | null;
     rtcSession: DocumentContentRTC | null;
-  }
+    sessionLogs: { type: string; userId: number }[];
+  };
 }
