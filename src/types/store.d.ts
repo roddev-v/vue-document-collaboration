@@ -23,5 +23,9 @@ declare namespace Store {
     register: DocumentRegister | null;
     rtcSession: DocumentContentRTC | null;
     sessionLogs: { type: string; userId: number }[];
+    userCarets: Record<
+      string,
+      { color: string; position: number; target: "title" | "content" }
+    > = [];
   };
 }

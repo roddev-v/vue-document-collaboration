@@ -28,13 +28,13 @@ export class DocumentRegister {
 
     this.titleRegister = new LWWRegister(`${this._id}-title`, [
       `${this._id}-title`,
-      1,
+      Date.now(),
       document.title,
     ]);
 
     this.contentRegister = new LWWRegister(`${this._id}-content`, [
       `${this._id}-content`,
-      1,
+      Date.now(),
       document.content,
     ]);
   }

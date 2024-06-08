@@ -17,6 +17,7 @@ export const useDocumentSessionStore = defineStore("documentSessionStore", {
     register: null,
     rtcSession: null,
     sessionLogs: [],
+    userCarets: {},
   }),
   getters: {
     documentId: (store) => store.id,
@@ -28,6 +29,7 @@ export const useDocumentSessionStore = defineStore("documentSessionStore", {
     contentState: (store) => store.register?.contentState,
     canRevokeAccess: (store) => authStore.user.id === store.authorId,
     logs: (store) => store.sessionLogs,
+    carets: (store) => store.userCarets,
   },
   actions: {
     async load(id: string): Promise<void> {
@@ -41,7 +43,6 @@ export const useDocumentSessionStore = defineStore("documentSessionStore", {
     },
     revokeUser(id: number): void {
       this.sharedUsers = this.sharedUsers.filter((u) => u.id === id);
-      console.log(this.sharedUsers);
     },
     updateTitle(value: string): void {
       this.register?.updateTitle(value);
@@ -73,12 +74,35 @@ export const useDocumentSessionStore = defineStore("documentSessionStore", {
     mergeContent(state: LWWRegisterState<string>): void {
       this.register?.mergeContent(state);
     },
+    updateCarrentPosition(target: "title" | "content", position: number): void {
+      this.rtcSession?.send({
+        type: "update_caret_position",
+        state: [target, Date.now(), position.toString()],
+        userId: authStore.user.id,
+        documentId: this.id,
+      });
+    },
     mergeRTCEvent(event: any) {
       this.sessionLogs.push(event);
       if (event.type === "update_title") {
         this.mergeTitle(event.state);
-      } else {
+      } else if (event.type === "update_content") {
         this.mergeContent(event.state);
+      } else {
+        const [caretTarget, , position] = event.state;
+        const target: "title" | "content" = caretTarget;
+        if (event.userId === this.authorId) {
+          return;
+        }
+
+        this.userCarets = {
+          ...this.userCarets,
+          [event.userId]: {
+            target,
+            color: "red",
+            position: +position,
+          },
+        };
       }
     },
     initRTCSession(): void {

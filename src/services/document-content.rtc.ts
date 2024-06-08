@@ -20,7 +20,12 @@ export class DocumentContentRTC {
     this.client.connect({}, onConnected, onError);
   }
 
-  send(event: { type: "update_title" | "update_content"; state: any; userId: string, documentId: string }) {
+  send(event: {
+    type: "update_title" | "update_content" | "update_caret_position";
+    state: any;
+    userId: string;
+    documentId: string;
+  }) {
     this.client.send(this.changesUrl, {}, JSON.stringify(event));
   }
 
@@ -30,7 +35,7 @@ export class DocumentContentRTC {
     );
   }
 
-  disconnect(cb = () => console.log('Disconnected from RTC')): void {
+  disconnect(cb = () => console.log("Disconnected from RTC")): void {
     this.client.disconnect(cb);
   }
 }
