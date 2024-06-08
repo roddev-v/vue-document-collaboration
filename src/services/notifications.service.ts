@@ -30,6 +30,7 @@ export class NotificationsService {
       console.log("Open to receive notifications");
 
     this.eventSource.onmessage = (msg) => {
+      console.log(msg);
       const notification = new Notification(JSON.parse(msg.data));
       toast.add(notification.view);
 

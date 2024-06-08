@@ -8,7 +8,7 @@ export class Notification {
   recipientId?: number;
   snederEmail?: string;
   senderNickname?: string;
-  type?: "USER_JOINED" | "DOCUMENT_DELETED";
+  type!: "USER_JOINED" | "DOCUMENT_DELETED" | "DOCUMENT_ACCESS_REVOKED";
 
   constructor(obj: any) {
     Object.assign(this, obj);
@@ -16,6 +16,8 @@ export class Notification {
 
   private getContent() {
     switch (this.type) {
+      case "DOCUMENT_ACCESS_REVOKED":
+        return `@${this.senderNickname} revoked your acces to a document!`;
       case "USER_JOINED":
         return `@${this.senderNickname} joined your document via the document ID!`;
       case "DOCUMENT_DELETED":
@@ -31,6 +33,8 @@ export class Notification {
         return `User joined!`;
       case "DOCUMENT_DELETED":
         return `Document deleted!`;
+      case "DOCUMENT_ACCESS_REVOKED":
+        return "Access revoked :(";
       default:
         return "Info";
     }
@@ -38,7 +42,7 @@ export class Notification {
 
   get view(): ToastMessageOptions {
     return {
-      severity: ActionSeverity[this.type!],
+      severity: ActionSeverity[this.type],
       summary: this.getSummary(),
       detail: this.getContent(),
       life: 5000,
