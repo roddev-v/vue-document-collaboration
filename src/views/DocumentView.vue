@@ -100,7 +100,7 @@
 import PageWrapper from "@/components/PageWrapper.vue";
 import SharedUsers from "@/components/SharedUsers.vue";
 
-import { computed, onMounted, onUnmounted, watch } from "vue";
+import { onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth.store";
 import { useDocumentSessionStore } from "@/stores/document-session.store";
@@ -108,54 +108,9 @@ import { useDocumentSessionStore } from "@/stores/document-session.store";
 const authStore = useAuthStore();
 const documentSessionStore = useDocumentSessionStore();
 
-const currentSharedUsersCarets = new Set();
 let titleEditor: HTMLInputElement;
 let contentEditor: HTMLTextAreaElement;
 
-let titleWrapper: HTMLElement;
-let contentWrapper: HTMLElement;
-
-const carets = computed(() => documentSessionStore.userCarets);
-watch(carets, (_, state) => {
-  const keys = Object.keys(state);
-  for (const key of keys) {
-    const data = state[key];
-    const target = data.target === "content" ? contentEditor : titleEditor;
-    let caret: HTMLElement;
-
-    if (currentSharedUsersCarets.has(key)) {
-      caret = document.getElementById(`caret-${key}`)!;
-    } else {
-      caret = document.createElement("div");
-      caret.id = `caret-${key}`;
-      caret.className = "caret-indicator";
-      caret.style.background = data.color;
-      currentSharedUsersCarets.add(key);
-      target.appendChild(caret);
-    }
-    positionCaret(caret, target, data.position);
-  }
-});
-
-function positionCaret(
-  caret: HTMLElement,
-  targetEl: HTMLElement,
-  position: number
-) {
-  let el = targetEl.querySelector("input, textarea") as any;
-  if (!el) return; // Guard against no element found
-
-  el.focus(); // Ensure the element is focused to manipulate selection
-  el.setSelectionRange(position, position); // Set cursor position
-
-  const rect = el.getBoundingClientRect(); // Get bounding box of the input/textarea
-  const scrollLeft = el.scrollLeft;
-  const scrollTop = el.scrollTop;
-
-  // Adjust the position of the caret div to match the cursor position
-  caret.style.left = `${rect.left + scrollLeft}px`;
-  caret.style.top = `${rect.top + scrollTop}px`;
-}
 
 onMounted(async () => {
   const route = useRouter();
@@ -164,12 +119,10 @@ onMounted(async () => {
   documentSessionStore.initRTCSession();
 
   titleEditor = document.getElementById("titleEditor") as HTMLInputElement;
-  titleWrapper = document.getElementById("titleWrapper") as HTMLElement;
 
   contentEditor = document.getElementById(
     "contentEditor"
   ) as HTMLTextAreaElement;
-  contentWrapper = document.getElementById("contentWrapper") as HTMLElement;
 
   initCaretListeners(titleEditor, "title");
   initCaretListeners(contentEditor, "content");
