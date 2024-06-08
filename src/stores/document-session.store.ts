@@ -109,6 +109,8 @@ export const useDocumentSessionStore = defineStore("documentSessionStore", {
       this.rtcSession = new DocumentContentRTC(this.id);
       this.rtcSession.connect(() => {
         this.rtcSession?.subscribe((event) => this.mergeRTCEvent(event));
+      }, () => {
+        setTimeout(() => this.initRTCSession(), 1000);
       });
     },
     disconnectRTCSession(): void {
