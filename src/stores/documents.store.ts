@@ -3,6 +3,7 @@ import { AxiosError } from "axios";
 import { defineStore } from "pinia";
 import { ContentService } from "@/services/content.service";
 import router from "@/router";
+import { Store } from "@/types/store";
 
 export const useDocumentsStore = defineStore("documentsStore", {
   state: (): Store.Documents => ({ documents: [], sharedDocuments: [], error: null }),

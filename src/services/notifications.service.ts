@@ -3,7 +3,6 @@ import { useToast } from "primevue/usetoast";
 import { Notification } from "@/models/notification.model";
 import httpService from "@/utils/http.service";
 import { useDocumentsStore } from "@/stores/documents.store";
-import { ActionsToDahsboardNavigate, ActionsToRefresh } from "@/utils/consts";
 import { useRouter } from "vue-router";
 import { Types } from "@/types/types";
 
@@ -30,14 +29,13 @@ export class NotificationsService {
       console.log("Open to receive notifications");
 
     this.eventSource.onmessage = (msg) => {
-      console.log(msg);
       const notification = new Notification(JSON.parse(msg.data));
       toast.add(notification.view);
 
-      if (ActionsToDahsboardNavigate.includes(notification.type!)) {
+      if (notification.shoudNavigateToDashboard) {
         router.replace("/app");
       }
-      if (ActionsToRefresh.includes(notification.type!)) {
+      if (notification.shouldRefreshDashboard) {
         documentsStore.refreshData();
       }
     };
@@ -50,11 +48,13 @@ export class NotificationsService {
   }
 
   static async genUnread(): Promise<Types.Notification[]> {
-    return (await httpService.get(`${this.notificationsUrl}`)).data;
+    const response = await httpService.get(`${this.notificationsUrl}`);
+    return response.data;
   }
 
   static async getRead():  Promise<Types.Notification[]>  {
-    return (await httpService.get(`${this.notificationsUrl}/read`)).data;
+    const response = await httpService.get(`${this.notificationsUrl}/read`);
+    return response.data;
   }
 
   static async readAll(): Promise<void> {

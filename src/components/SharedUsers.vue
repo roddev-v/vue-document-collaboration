@@ -20,6 +20,7 @@
     <div class="avatar" v-bind:key="user.id" v-for="user of users">
       {{ user.nickname }}
       <Button
+        v-if="canRevoke"
         v-on:click="store.revokeAccess(user.id, documentId)"
         icon="fa fa-x"
         severity="danger"
@@ -32,9 +33,10 @@
 </template>
 
 <script lang="ts" setup>
+import Button from "primevue/button";
+
 import { Types } from "@/types/types";
 import { PropType, defineProps } from "vue";
-import Button from "primevue/button";
 import { useDocumentsStore } from "@/stores/documents.store";
 
 const store = useDocumentsStore();
@@ -45,7 +47,11 @@ defineProps({
   },
   documentId: {
     type: String,
-    required: true
+    required: true,
+  },
+  canRevoke: {
+    type: Boolean,
+    required: true,
   },
 });
 </script>

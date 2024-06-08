@@ -1,4 +1,4 @@
-import { ActionSeverity } from "@/utils/consts";
+import { ActionSeverity, ActionsToDahsboardNavigate, ActionsToRefresh } from "@/utils/consts";
 import { ToastMessageOptions } from "primevue/toast";
 
 export class Notification {
@@ -38,6 +38,14 @@ export class Notification {
       default:
         return "Info";
     }
+  }
+
+  get shoudNavigateToDashboard(): boolean {
+    return ActionsToDahsboardNavigate.includes(this.type);
+  }
+
+  get shouldRefreshDashboard(): boolean {
+    return ActionsToRefresh.includes(this.type);
   }
 
   get view(): ToastMessageOptions {

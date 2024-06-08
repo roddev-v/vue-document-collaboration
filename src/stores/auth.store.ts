@@ -1,4 +1,5 @@
 import { AuthService } from "@/services/auth.service";
+import { Store } from "@/types/store";
 import { StorageKeys } from "@/utils/consts";
 import { AxiosError } from "axios";
 import { defineStore } from "pinia";

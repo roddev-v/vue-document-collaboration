@@ -34,8 +34,3 @@ export class DocumentContentRTC {
     this.client.disconnect(cb);
   }
 }
-
-// TODO
-/**
- * Figure out why Cloud API Gateway won't load
- */

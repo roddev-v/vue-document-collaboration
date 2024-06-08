@@ -1,7 +1,7 @@
 import { Types } from "@/types/types";
 import { LWWRegister, LWWRegisterState } from "./lww.register";
 
-export class DocumentRegisterModel {
+export class DocumentRegister {
   private readonly _id: string;
 
   private titleRegister: LWWRegister<string>;

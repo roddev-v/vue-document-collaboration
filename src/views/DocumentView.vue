@@ -50,18 +50,19 @@
     <div class="editor-view">
       <div class="document">
         <SharedUsers
-          v-if="document?.sharedUsers?.length"
-          :users="document.sharedUsers"
-          :document-id="document.id"
+          v-if="documentSessionStore.isSharedWithUsers"
+          :users="documentSessionStore.users"
+          :canRevoke="documentSessionStore.canRevokeAccess"
+          :document-id="documentSessionStore.id"
         />
         <InputText
-          v-bind:value="documentRegister?.title"
+          v-bind:value="documentSessionStore.title"
           class="title"
           @input="updateTitle"
         />
         <Textarea
-          v-bind:value="documentRegister?.content"
-          class="content"
+        v-bind:value="documentSessionStore.content"
+        class="content"
           @input="updateContent"
         />
       </div>
@@ -85,69 +86,35 @@
 import PageWrapper from "@/components/PageWrapper.vue";
 import Textarea from "primevue/textarea";
 import InputText from "primevue/inputtext";
-
-import { DocumentRegisterModel } from "@/models/document-register.model";
-import { ContentService } from "@/services/content.service";
-import { DocumentContentRTC } from "@/services/document-content.rtc";
+import SharedUsers from "@/components/SharedUsers.vue";
 
 import { onMounted, onUnmounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth.store";
-import SharedUsers from "@/components/SharedUsers.vue";
-import { DocumentsService } from "@/services/documents.service";
-import { Types } from "@/types/types";
+import { useDocumentSessionStore } from "@/stores/document-session.store";
 
-let documentRegister = ref<DocumentRegisterModel>();
-let document: Types.Document;
-let rtc: DocumentContentRTC;
 
 const authStore = useAuthStore();
-const sessionLogs = ref<any[]>([]);
+const documentSessionStore = useDocumentSessionStore();
 const currentDocumentId = ref<string>("");
+
+const sessionLogs = ref<any[]>([]);
 
 onMounted(async () => {
   const route = useRouter();
   const documentId = route.currentRoute.value.params.id as string;
-  const content = await ContentService.get(documentId);
-  document = await DocumentsService.getDocument(documentId);
-
-  documentRegister.value = new DocumentRegisterModel(content);
   currentDocumentId.value = documentId;
-
-  rtc = new DocumentContentRTC(content.id);
-  rtc.connect(() => initListener());
+  await documentSessionStore.load(documentId);
+  documentSessionStore.initRTCSession();
 });
 
-onUnmounted(() => rtc.disconnect());
-
-function initListener() {
-  rtc.subscribe((payload) => {
-    sessionLogs.value.push(payload);
-    if (payload.type === "update_title") {
-      documentRegister?.value?.mergeTitle(payload.state);
-    } else {
-      documentRegister?.value?.mergeContent(payload.state);
-    }
-  });
-}
+onUnmounted(() => documentSessionStore.disconnectRTCSession());
 
 function updateTitle(e: any) {
-  documentRegister.value?.updateTitle(e.target.value);
-  rtc.send({
-    type: "update_title",
-    state: documentRegister.value?.titleState,
-    userId: authStore.user.id,
-    documentId: currentDocumentId.value,
-  });
+  documentSessionStore.updateTitle(e.target?.value);
 }
 
 function updateContent(e: any) {
-  documentRegister.value?.updateContent(e.target.value);
-  rtc.send({
-    type: "update_content",
-    state: documentRegister.value?.contentState,
-    userId: authStore.user.id,
-    documentId: currentDocumentId.value,
-  });
+  documentSessionStore.updateContent(e.target?.value);
 }
 </script>
